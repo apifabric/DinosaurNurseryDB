@@ -1,0 +1,344 @@
+about:
+  date: December 13, 2024 22:07:47
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+info:
+  number_relationships: 11
+  number_tables: 13
+info_toggle_checked: true
+resources:
+  Activity:
+    attributes:
+    - label: ' name*'
+      name: name
+      search: true
+      sort: true
+    - name: location
+    - name: scheduled_date
+      type: DATETIME
+    - name: id
+    description: Represents activities held at the nursery.
+    info_list: Represents activities held at the nursery.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - activity_id
+      name: DinosaurActivityList
+      resource: DinosaurActivity
+    - direction: tomany
+      fks:
+      - activity_id
+      name: SupplyUsageList
+      resource: SupplyUsage
+    type: Activity
+    user_key: name
+  Caretaker:
+    attributes:
+    - label: ' name*'
+      name: name
+      search: true
+      sort: true
+    - name: experience_level
+    - name: hire_date
+      type: DATETIME
+    - name: id
+    description: Represents staff caring for dinosaurs.
+    info_list: Represents staff caring for dinosaurs.
+    type: Caretaker
+    user_key: name
+  Dinosaur:
+    attributes:
+    - label: ' name*'
+      name: name
+      search: true
+      sort: true
+    - name: species_id
+    - name: age
+    - name: enrollment_date
+      type: DATETIME
+    - name: id
+    - name: is_enrolled
+      type: Boolean
+    description: Represents a dinosaur attending the nursery school.
+    info_list: Represents a dinosaur attending the nursery school.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - dinosaur_id
+      name: DinosaurActivityList
+      resource: DinosaurActivity
+    - direction: tomany
+      fks:
+      - dinosaur_id
+      name: DinosaurMealList
+      resource: DinosaurMeal
+    - direction: tomany
+      fks:
+      - dinosaur_id
+      name: DinosaurParentList
+      resource: DinosaurParent
+    - direction: tomany
+      fks:
+      - dinosaur_id
+      name: DinosaurTrainingList
+      resource: DinosaurTraining
+    - direction: toone
+      fks:
+      - species_id
+      name: species
+      resource: Species
+    type: Dinosaur
+    user_key: name
+  DinosaurActivity:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: activity_id
+    - name: dinosaur_id
+    - name: participation_date
+      type: DATETIME
+    description: Represents the participation of dinosaurs in activities.
+    info_list: Represents the participation of dinosaurs in activities.
+    tab_groups:
+    - direction: toone
+      fks:
+      - activity_id
+      name: activity
+      resource: Activity
+    - direction: toone
+      fks:
+      - dinosaur_id
+      name: dinosaur
+      resource: Dinosaur
+    type: DinosaurActivity
+    user_key: id
+  DinosaurMeal:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: dinosaur_id
+    - name: meal_id
+    - name: consumption_date
+      type: DATETIME
+    description: Represents meals consumed by dinosaurs.
+    info_list: Represents meals consumed by dinosaurs.
+    tab_groups:
+    - direction: toone
+      fks:
+      - dinosaur_id
+      name: dinosaur
+      resource: Dinosaur
+    - direction: toone
+      fks:
+      - meal_id
+      name: meal
+      resource: Meal
+    type: DinosaurMeal
+    user_key: id
+  DinosaurParent:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: dinosaur_id
+    - name: parent_id
+    description: Represents the relationship between dinosaurs and their parents.
+    info_list: Represents the relationship between dinosaurs and their parents.
+    tab_groups:
+    - direction: toone
+      fks:
+      - dinosaur_id
+      name: dinosaur
+      resource: Dinosaur
+    - direction: toone
+      fks:
+      - parent_id
+      name: parent
+      resource: Parent
+    type: DinosaurParent
+    user_key: id
+  DinosaurTraining:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: dinosaur_id
+    - name: training_id
+    - name: attendance_date
+      type: DATETIME
+    description: Represents the training attendance of dinosaurs.
+    info_list: Represents the training attendance of dinosaurs.
+    tab_groups:
+    - direction: toone
+      fks:
+      - dinosaur_id
+      name: dinosaur
+      resource: Dinosaur
+    - direction: toone
+      fks:
+      - training_id
+      name: training
+      resource: Training
+    type: DinosaurTraining
+    user_key: id
+  Meal:
+    attributes:
+    - label: ' name*'
+      name: name
+      search: true
+      sort: true
+    - name: portion_size
+    - name: dietary_category
+    - name: id
+    description: Represents meals provided at the nursery.
+    info_list: Represents meals provided at the nursery.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - meal_id
+      name: DinosaurMealList
+      resource: DinosaurMeal
+    type: Meal
+    user_key: name
+  Parent:
+    attributes:
+    - label: ' name*'
+      name: name
+      search: true
+      sort: true
+    - name: contact_number
+    - name: email
+    - name: id
+    description: Represents the parents of dinosaurs.
+    info_list: Represents the parents of dinosaurs.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - parent_id
+      name: DinosaurParentList
+      resource: DinosaurParent
+    type: Parent
+    user_key: name
+  Species:
+    attributes:
+    - label: ' name*'
+      name: name
+      search: true
+      sort: true
+    - name: average_lifespan
+    - name: id
+    description: Represents different dinosaur species.
+    info_list: Represents different dinosaur species.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - species_id
+      name: DinosaurList
+      resource: Dinosaur
+    type: Species
+    user_key: name
+  Supply:
+    attributes:
+    - label: ' name*'
+      name: name
+      search: true
+      sort: true
+    - name: last_stock_date
+      type: DATETIME
+    - name: id
+    - name: quantity_on_hand
+    description: Represents supplies used at the nursery.
+    info_list: Represents supplies used at the nursery.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - supply_id
+      name: SupplyUsageList
+      resource: SupplyUsage
+    type: Supply
+    user_key: name
+  SupplyUsage:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: activity_id
+    - name: supply_id
+    - name: used_date
+      type: DATETIME
+    - name: quantity_used
+    description: Represents usage of supplies for nursery activities.
+    info_list: Represents usage of supplies for nursery activities.
+    tab_groups:
+    - direction: toone
+      fks:
+      - activity_id
+      name: activity
+      resource: Activity
+    - direction: toone
+      fks:
+      - supply_id
+      name: supply
+      resource: Supply
+    type: SupplyUsage
+    user_key: id
+  Training:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: title
+    - name: focus_area
+    - name: session_date
+      type: DATETIME
+    description: Represents training sessions for dinosaurs.
+    info_list: Represents training sessions for dinosaurs.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - training_id
+      name: DinosaurTrainingList
+      resource: DinosaurTraining
+    type: Training
+    user_key: id
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    detail_mode: tab
+    edit_on_mode: dblclick
+    exclude_listpicker: false
+    include_translation: 'false'
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    new_mode: dialog
+    pick_style: list
+    row_height: small,
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: 'false'

@@ -1,0 +1,128 @@
+// Copy this text, paste to https://dbdiagram.io/d
+// Or, https://databasediagram.com/app
+// Or, view in VSCode with extension: "DBML Live Preview"
+
+Project DBML {
+  Note: '''
+Activity: Represents activities held at the nursery.
+Caretaker: Represents staff caring for dinosaurs.
+Dinosaur: Represents a dinosaur attending the nursery school.
+Species: Represents different dinosaur species.
+DinosaurActivity: Represents the participation of dinosaurs in activities.
+DinosaurMeal: Represents meals consumed by dinosaurs.
+Meal: Represents meals provided at the nursery.
+DinosaurParent: Represents the relationship between dinosaurs and their parents.
+Parent: Represents the parents of dinosaurs.
+DinosaurTraining: Represents the training attendance of dinosaurs.
+Training: Represents training sessions for dinosaurs.
+Supply: Represents supplies used at the nursery.
+SupplyUsage: Represents usage of supplies for nursery activities.
+'''
+}
+
+Table Activity {
+    id INTEGER [primary key]
+    name VARCHAR 
+    location VARCHAR 
+    scheduled_date DATETIME 
+    }
+
+Table Caretaker {
+    id INTEGER [primary key]
+    name VARCHAR 
+    experience_level VARCHAR 
+    hire_date DATETIME 
+    }
+
+Table Dinosaur {
+    id INTEGER [primary key]
+    name VARCHAR 
+    species_id INTEGER 
+    age INTEGER 
+    is_enrolled BOOLEAN 
+    enrollment_date DATETIME 
+    }
+
+Table Species {
+    id INTEGER [primary key]
+    name VARCHAR 
+    average_lifespan INTEGER 
+    }
+
+Table DinosaurActivity {
+    id INTEGER [primary key]
+    dinosaur_id INTEGER 
+    activity_id INTEGER 
+    participation_date DATETIME 
+    }
+
+Table DinosaurMeal {
+    id INTEGER [primary key]
+    dinosaur_id INTEGER 
+    meal_id INTEGER 
+    consumption_date DATETIME 
+    }
+
+Table Meal {
+    id INTEGER [primary key]
+    name VARCHAR 
+    portion_size VARCHAR 
+    dietary_category VARCHAR 
+    }
+
+Table DinosaurParent {
+    id INTEGER [primary key]
+    dinosaur_id INTEGER 
+    parent_id INTEGER 
+    }
+
+Table Parent {
+    id INTEGER [primary key]
+    name VARCHAR 
+    contact_number VARCHAR 
+    email VARCHAR 
+    }
+
+Table DinosaurTraining {
+    id INTEGER [primary key]
+    dinosaur_id INTEGER 
+    training_id INTEGER 
+    attendance_date DATETIME 
+    }
+
+Table Training {
+    id INTEGER [primary key]
+    title VARCHAR 
+    focus_area VARCHAR 
+    session_date DATETIME 
+    }
+
+Table Supply {
+    id INTEGER [primary key]
+    name VARCHAR 
+    quantity_on_hand INTEGER 
+    last_stock_date DATETIME 
+    }
+
+Table SupplyUsage {
+    id INTEGER [primary key]
+    supply_id INTEGER 
+    activity_id INTEGER 
+    used_date DATETIME 
+    quantity_used INTEGER 
+    }
+
+
+
+// Relationships
+    Ref: Dinosaur.(species_id) < Species.(id)
+    Ref: DinosaurActivity.(activity_id) < Activity.(id)
+    Ref: DinosaurActivity.(dinosaur_id) < Dinosaur.(id)
+    Ref: DinosaurMeal.(dinosaur_id) < Dinosaur.(id)
+    Ref: DinosaurMeal.(meal_id) < Meal.(id)
+    Ref: DinosaurParent.(dinosaur_id) < Dinosaur.(id)
+    Ref: DinosaurParent.(parent_id) < Parent.(id)
+    Ref: DinosaurTraining.(dinosaur_id) < Dinosaur.(id)
+    Ref: DinosaurTraining.(training_id) < Training.(id)
+    Ref: SupplyUsage.(activity_id) < Activity.(id)
+    Ref: SupplyUsage.(supply_id) < Supply.(id)

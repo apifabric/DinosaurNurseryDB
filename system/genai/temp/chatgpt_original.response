@@ -1,0 +1,309 @@
+{
+    "models": [
+        {
+            "classname": "Dinosaur",
+            "code": "class Dinosaur(Base):\n    \"\"\"description: Represents a dinosaur attending the nursery school.\"\"\"\n    __tablename__ = 'dinosaurs'\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String)\n    species_id = Column(Integer, ForeignKey('species.id'))\n    age = Column(Integer)\n    is_enrolled = Column(Boolean, default=True)\n    enrollment_date = Column(DateTime)",
+            "sqlite_create": "CREATE TABLE dinosaurs (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    name TEXT,\n    species_id INTEGER,\n    age INTEGER,\n    is_enrolled BOOLEAN DEFAULT 1,\n    enrollment_date DATETIME,\n    FOREIGN KEY(species_id) REFERENCES species(id)\n)",
+            "description": "Represents a dinosaur attending the nursery school.",
+            "name": "Dinosaurs"
+        },
+        {
+            "classname": "Species",
+            "code": "class Species(Base):\n    \"\"\"description: Represents different dinosaur species.\"\"\"\n    __tablename__ = 'species'\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String)\n    average_lifespan = Column(Integer)",
+            "sqlite_create": "CREATE TABLE species (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    name TEXT,\n    average_lifespan INTEGER\n)",
+            "description": "Represents different dinosaur species.",
+            "name": "Species"
+        },
+        {
+            "classname": "Caretaker",
+            "code": "class Caretaker(Base):\n    \"\"\"description: Represents staff caring for dinosaurs.\"\"\"\n    __tablename__ = 'caretakers'\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String)\n    experience_level = Column(String)\n    hire_date = Column(DateTime)",
+            "sqlite_create": "CREATE TABLE caretakers (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    name TEXT,\n    experience_level TEXT,\n    hire_date DATETIME\n)",
+            "description": "Represents staff caring for dinosaurs.",
+            "name": "Caretakers"
+        },
+        {
+            "classname": "Activity",
+            "code": "class Activity(Base):\n    \"\"\"description: Represents activities held at the nursery.\"\"\"\n    __tablename__ = 'activities'\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String)\n    location = Column(String)\n    scheduled_date = Column(DateTime)",
+            "sqlite_create": "CREATE TABLE activities (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    name TEXT,\n    location TEXT,\n    scheduled_date DATETIME\n)",
+            "description": "Represents activities held at the nursery.",
+            "name": "Activities"
+        },
+        {
+            "classname": "DinosaurActivity",
+            "code": "class DinosaurActivity(Base):\n    \"\"\"description: Represents the participation of dinosaurs in activities.\"\"\"\n    __tablename__ = 'dinosaur_activities'\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    dinosaur_id = Column(Integer, ForeignKey('dinosaurs.id'))\n    activity_id = Column(Integer, ForeignKey('activities.id'))\n    participation_date = Column(DateTime)",
+            "sqlite_create": "CREATE TABLE dinosaur_activities (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    dinosaur_id INTEGER,\n    activity_id INTEGER,\n    participation_date DATETIME,\n    FOREIGN KEY(dinosaur_id) REFERENCES dinosaurs(id),\n    FOREIGN KEY(activity_id) REFERENCES activities(id)\n)",
+            "description": "Represents the participation of dinosaurs in activities.",
+            "name": "DinosaurActivities"
+        },
+        {
+            "classname": "Meal",
+            "code": "class Meal(Base):\n    \"\"\"description: Represents meals provided at the nursery.\"\"\"\n    __tablename__ = 'meals'\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String)\n    portion_size = Column(String)\n    dietary_category = Column(String)",
+            "sqlite_create": "CREATE TABLE meals (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    name TEXT,\n    portion_size TEXT,\n    dietary_category TEXT\n)",
+            "description": "Represents meals provided at the nursery.",
+            "name": "Meals"
+        },
+        {
+            "classname": "DinosaurMeal",
+            "code": "class DinosaurMeal(Base):\n    \"\"\"description: Represents meals consumed by dinosaurs.\"\"\"\n    __tablename__ = 'dinosaur_meals'\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    dinosaur_id = Column(Integer, ForeignKey('dinosaurs.id'))\n    meal_id = Column(Integer, ForeignKey('meals.id'))\n    consumption_date = Column(DateTime)",
+            "sqlite_create": "CREATE TABLE dinosaur_meals (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    dinosaur_id INTEGER,\n    meal_id INTEGER,\n    consumption_date DATETIME,\n    FOREIGN KEY(dinosaur_id) REFERENCES dinosaurs(id),\n    FOREIGN KEY(meal_id) REFERENCES meals(id)\n)",
+            "description": "Represents meals consumed by dinosaurs.",
+            "name": "DinosaurMeals"
+        },
+        {
+            "classname": "Training",
+            "code": "class Training(Base):\n    \"\"\"description: Represents training sessions for dinosaurs.\"\"\"\n    __tablename__ = 'training'\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    title = Column(String)\n    focus_area = Column(String)\n    session_date = Column(DateTime)",
+            "sqlite_create": "CREATE TABLE training (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    title TEXT,\n    focus_area TEXT,\n    session_date DATETIME\n)",
+            "description": "Represents training sessions for dinosaurs.",
+            "name": "Training"
+        },
+        {
+            "classname": "DinosaurTraining",
+            "code": "class DinosaurTraining(Base):\n    \"\"\"description: Represents the training attendance of dinosaurs.\"\"\"\n    __tablename__ = 'dinosaur_training'\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    dinosaur_id = Column(Integer, ForeignKey('dinosaurs.id'))\n    training_id = Column(Integer, ForeignKey('training.id'))\n    attendance_date = Column(DateTime)",
+            "sqlite_create": "CREATE TABLE dinosaur_training (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    dinosaur_id INTEGER,\n    training_id INTEGER,\n    attendance_date DATETIME,\n    FOREIGN KEY(dinosaur_id) REFERENCES dinosaurs(id),\n    FOREIGN KEY(training_id) REFERENCES training(id)\n)",
+            "description": "Represents the training attendance of dinosaurs.",
+            "name": "DinosaurTraining"
+        },
+        {
+            "classname": "Supply",
+            "code": "class Supply(Base):\n    \"\"\"description: Represents supplies used at the nursery.\"\"\"\n    __tablename__ = 'supplies'\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String)\n    quantity_on_hand = Column(Integer)\n    last_stock_date = Column(DateTime)",
+            "sqlite_create": "CREATE TABLE supplies (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    name TEXT,\n    quantity_on_hand INTEGER,\n    last_stock_date DATETIME\n)",
+            "description": "Represents supplies used at the nursery.",
+            "name": "Supplies"
+        },
+        {
+            "classname": "SupplyUsage",
+            "code": "class SupplyUsage(Base):\n    \"\"\"description: Represents usage of supplies for nursery activities.\"\"\"\n    __tablename__ = 'supply_usage'\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    supply_id = Column(Integer, ForeignKey('supplies.id'))\n    activity_id = Column(Integer, ForeignKey('activities.id'))\n    used_date = Column(DateTime)\n    quantity_used = Column(Integer)",
+            "sqlite_create": "CREATE TABLE supply_usage (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    supply_id INTEGER,\n    activity_id INTEGER,\n    used_date DATETIME,\n    quantity_used INTEGER,\n    FOREIGN KEY(supply_id) REFERENCES supplies(id),\n    FOREIGN KEY(activity_id) REFERENCES activities(id)\n)",
+            "description": "Represents usage of supplies for nursery activities.",
+            "name": "SupplyUsage"
+        },
+        {
+            "classname": "Parent",
+            "code": "class Parent(Base):\n    \"\"\"description: Represents the parents of dinosaurs.\"\"\"\n    __tablename__ = 'parents'\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String)\n    contact_number = Column(String)\n    email = Column(String)",
+            "sqlite_create": "CREATE TABLE parents (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    name TEXT,\n    contact_number TEXT,\n    email TEXT\n)",
+            "description": "Represents the parents of dinosaurs.",
+            "name": "Parents"
+        },
+        {
+            "classname": "DinosaurParent",
+            "code": "class DinosaurParent(Base):\n    \"\"\"description: Represents the relationship between dinosaurs and their parents.\"\"\"\n    __tablename__ = 'dinosaur_parents'\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    dinosaur_id = Column(Integer, ForeignKey('dinosaurs.id'))\n    parent_id = Column(Integer, ForeignKey('parents.id'))",
+            "sqlite_create": "CREATE TABLE dinosaur_parents (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    dinosaur_id INTEGER,\n    parent_id INTEGER,\n    FOREIGN KEY(dinosaur_id) REFERENCES dinosaurs(id),\n    FOREIGN KEY(parent_id) REFERENCES parents(id)\n)",
+            "description": "Represents the relationship between dinosaurs and their parents.",
+            "name": "DinosaurParents"
+        }
+    ],
+    "rules": [],
+    "test_data": "Test data for each table",
+    "test_data_rows": [
+        {
+            "test_data_row_variable": "species1",
+            "code": "species1 = Species(id=1, name='Tyrannosaurus', average_lifespan=30)"
+        },
+        {
+            "test_data_row_variable": "species2",
+            "code": "species2 = Species(id=2, name='Triceratops', average_lifespan=60)"
+        },
+        {
+            "test_data_row_variable": "species3",
+            "code": "species3 = Species(id=3, name='Velociraptor', average_lifespan=25)"
+        },
+        {
+            "test_data_row_variable": "species4",
+            "code": "species4 = Species(id=4, name='Stegosaurus', average_lifespan=70)"
+        },
+        {
+            "test_data_row_variable": "dino1",
+            "code": "dino1 = Dinosaur(id=1, name='Rexy', species_id=1, age=8, is_enrolled=True, enrollment_date=date(2023, 1, 10))"
+        },
+        {
+            "test_data_row_variable": "dino2",
+            "code": "dino2 = Dinosaur(id=2, name='Cera', species_id=2, age=5, is_enrolled=True, enrollment_date=date(2023, 2, 11))"
+        },
+        {
+            "test_data_row_variable": "dino3",
+            "code": "dino3 = Dinosaur(id=3, name='Blue', species_id=3, age=3, is_enrolled=True, enrollment_date=date(2023, 3, 12))"
+        },
+        {
+            "test_data_row_variable": "dino4",
+            "code": "dino4 = Dinosaur(id=4, name='Spike', species_id=4, age=2, is_enrolled=True, enrollment_date=date(2023, 4, 13))"
+        },
+        {
+            "test_data_row_variable": "caretaker1",
+            "code": "caretaker1 = Caretaker(id=1, name='Alice', experience_level='Intermediate', hire_date=date(2023, 5, 14))"
+        },
+        {
+            "test_data_row_variable": "caretaker2",
+            "code": "caretaker2 = Caretaker(id=2, name='Bob', experience_level='Expert', hire_date=date(2023, 6, 15))"
+        },
+        {
+            "test_data_row_variable": "caretaker3",
+            "code": "caretaker3 = Caretaker(id=3, name='Charlie', experience_level='Beginner', hire_date=date(2023, 7, 16))"
+        },
+        {
+            "test_data_row_variable": "caretaker4",
+            "code": "caretaker4 = Caretaker(id=4, name='Dana', experience_level='Advanced', hire_date=date(2023, 8, 17))"
+        },
+        {
+            "test_data_row_variable": "activity1",
+            "code": "activity1 = Activity(id=1, name='Jungle Gym', location='Playground', scheduled_date=date(2023, 9, 18))"
+        },
+        {
+            "test_data_row_variable": "activity2",
+            "code": "activity2 = Activity(id=2, name='Color Fun', location='Art Room', scheduled_date=date(2023, 10, 19))"
+        },
+        {
+            "test_data_row_variable": "activity3",
+            "code": "activity3 = Activity(id=3, name='Splash Tactics', location='Water Park', scheduled_date=date(2023, 11, 20))"
+        },
+        {
+            "test_data_row_variable": "activity4",
+            "code": "activity4 = Activity(id=4, name='Mini Cavern Expedition', location='Indoor Cave', scheduled_date=date(2023, 12, 21))"
+        },
+        {
+            "test_data_row_variable": "dino_activity1",
+            "code": "dino_activity1 = DinosaurActivity(id=1, dinosaur_id=1, activity_id=1, participation_date=date(2023, 9, 18))"
+        },
+        {
+            "test_data_row_variable": "dino_activity2",
+            "code": "dino_activity2 = DinosaurActivity(id=2, dinosaur_id=2, activity_id=2, participation_date=date(2023, 10, 19))"
+        },
+        {
+            "test_data_row_variable": "dino_activity3",
+            "code": "dino_activity3 = DinosaurActivity(id=3, dinosaur_id=3, activity_id=3, participation_date=date(2023, 11, 20))"
+        },
+        {
+            "test_data_row_variable": "dino_activity4",
+            "code": "dino_activity4 = DinosaurActivity(id=4, dinosaur_id=4, activity_id=4, participation_date=date(2023, 12, 21))"
+        },
+        {
+            "test_data_row_variable": "meal1",
+            "code": "meal1 = Meal(id=1, name='Salad', portion_size='Medium', dietary_category='Herbivore')"
+        },
+        {
+            "test_data_row_variable": "meal2",
+            "code": "meal2 = Meal(id=2, name='Fish', portion_size='Large', dietary_category='Carnivore')"
+        },
+        {
+            "test_data_row_variable": "meal3",
+            "code": "meal3 = Meal(id=3, name='Seeds', portion_size='Small', dietary_category='Herbivore')"
+        },
+        {
+            "test_data_row_variable": "meal4",
+            "code": "meal4 = Meal(id=4, name='Fruit', portion_size='Small', dietary_category='Omnivore')"
+        },
+        {
+            "test_data_row_variable": "dino_meal1",
+            "code": "dino_meal1 = DinosaurMeal(id=1, dinosaur_id=1, meal_id=2, consumption_date=date(2023, 9, 18))"
+        },
+        {
+            "test_data_row_variable": "dino_meal2",
+            "code": "dino_meal2 = DinosaurMeal(id=2, dinosaur_id=2, meal_id=1, consumption_date=date(2023, 10, 19))"
+        },
+        {
+            "test_data_row_variable": "dino_meal3",
+            "code": "dino_meal3 = DinosaurMeal(id=3, dinosaur_id=3, meal_id=4, consumption_date=date(2023, 11, 20))"
+        },
+        {
+            "test_data_row_variable": "dino_meal4",
+            "code": "dino_meal4 = DinosaurMeal(id=4, dinosaur_id=4, meal_id=1, consumption_date=date(2023, 12, 21))"
+        },
+        {
+            "test_data_row_variable": "training1",
+            "code": "training1 = Training(id=1, title='Running Speed', focus_area='Physique', session_date=date(2023, 9, 25))"
+        },
+        {
+            "test_data_row_variable": "training2",
+            "code": "training2 = Training(id=2, title='Herbalist Adventure', focus_area='Diet', session_date=date(2023, 10, 26))"
+        },
+        {
+            "test_data_row_variable": "training3",
+            "code": "training3 = Training(id=3, title='Rain Hunt', focus_area='Tracking', session_date=date(2023, 11, 27))"
+        },
+        {
+            "test_data_row_variable": "training4",
+            "code": "training4 = Training(id=4, title='Pond Stash', focus_area='Storage', session_date=date(2023, 12, 28))"
+        },
+        {
+            "test_data_row_variable": "dino_training1",
+            "code": "dino_training1 = DinosaurTraining(id=1, dinosaur_id=1, training_id=1, attendance_date=date(2023, 9, 25))"
+        },
+        {
+            "test_data_row_variable": "dino_training2",
+            "code": "dino_training2 = DinosaurTraining(id=2, dinosaur_id=2, training_id=3, attendance_date=date(2023, 10, 26))"
+        },
+        {
+            "test_data_row_variable": "dino_training3",
+            "code": "dino_training3 = DinosaurTraining(id=3, dinosaur_id=3, training_id=4, attendance_date=date(2023, 11, 27))"
+        },
+        {
+            "test_data_row_variable": "dino_training4",
+            "code": "dino_training4 = DinosaurTraining(id=4, dinosaur_id=4, training_id=2, attendance_date=date(2023, 12, 28))"
+        },
+        {
+            "test_data_row_variable": "supply1",
+            "code": "supply1 = Supply(id=1, name='Paint Brushes', quantity_on_hand=60, last_stock_date=date(2023, 1, 1))"
+        },
+        {
+            "test_data_row_variable": "supply2",
+            "code": "supply2 = Supply(id=2, name='Building Blocks', quantity_on_hand=100, last_stock_date=date(2023, 2, 15))"
+        },
+        {
+            "test_data_row_variable": "supply3",
+            "code": "supply3 = Supply(id=3, name='Water Guns', quantity_on_hand=30, last_stock_date=date(2023, 3, 20))"
+        },
+        {
+            "test_data_row_variable": "supply4",
+            "code": "supply4 = Supply(id=4, name='Sketch Pads', quantity_on_hand=75, last_stock_date=date(2023, 4, 25))"
+        },
+        {
+            "test_data_row_variable": "supply_usage1",
+            "code": "supply_usage1 = SupplyUsage(id=1, supply_id=1, activity_id=2, used_date=date(2023, 10, 19), quantity_used=10)"
+        },
+        {
+            "test_data_row_variable": "supply_usage2",
+            "code": "supply_usage2 = SupplyUsage(id=2, supply_id=2, activity_id=1, used_date=date(2023, 9, 18), quantity_used=15)"
+        },
+        {
+            "test_data_row_variable": "supply_usage3",
+            "code": "supply_usage3 = SupplyUsage(id=3, supply_id=3, activity_id=3, used_date=date(2023, 11, 20), quantity_used=20)"
+        },
+        {
+            "test_data_row_variable": "supply_usage4",
+            "code": "supply_usage4 = SupplyUsage(id=4, supply_id=4, activity_id=2, used_date=date(2023, 10, 19), quantity_used=25)"
+        },
+        {
+            "test_data_row_variable": "parent1",
+            "code": "parent1 = Parent(id=1, name='Grendel', contact_number='1234567890', email='grendel@example.com')"
+        },
+        {
+            "test_data_row_variable": "parent2",
+            "code": "parent2 = Parent(id=2, name='Aurora', contact_number='0987654321', email='aurora@example.com')"
+        },
+        {
+            "test_data_row_variable": "parent3",
+            "code": "parent3 = Parent(id=3, name='Zephyr', contact_number='1122334455', email='zephyr@example.com')"
+        },
+        {
+            "test_data_row_variable": "parent4",
+            "code": "parent4 = Parent(id=4, name='Fjord', contact_number='5566778899', email='fjord@example.com')"
+        },
+        {
+            "test_data_row_variable": "dino_parent1",
+            "code": "dino_parent1 = DinosaurParent(id=1, dinosaur_id=1, parent_id=2)"
+        },
+        {
+            "test_data_row_variable": "dino_parent2",
+            "code": "dino_parent2 = DinosaurParent(id=2, dinosaur_id=2, parent_id=1)"
+        },
+        {
+            "test_data_row_variable": "dino_parent3",
+            "code": "dino_parent3 = DinosaurParent(id=3, dinosaur_id=3, parent_id=4)"
+        },
+        {
+            "test_data_row_variable": "dino_parent4",
+            "code": "dino_parent4 = DinosaurParent(id=4, dinosaur_id=4, parent_id=3)"
+        }
+    ],
+    "test_data_sqlite": "SQLite test data insertions are not generated.",
+    "name": "DinosaurNurseryDB"
+}
